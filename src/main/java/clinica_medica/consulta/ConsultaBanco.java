@@ -27,10 +27,10 @@ public class ConsultaBanco {
 	public void consultarClinicasMedica() {
 		String sqlClinicaMedica = "SELECT * FROM clinica_medica";
 
+		System.out.println("\n===== CLINICAS MEDICA =====");
 		try {
 			this.banco.consulta(sqlClinicaMedica);
-			
-			System.out.println("\n===== CLINICAS MEDICA =====");
+
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				ClinicaMedica res = new ClinicaMedica(this.banco.rs);
 				System.out.println(res);
@@ -52,10 +52,10 @@ public class ConsultaBanco {
 	public void consultarConsultas() {
 		String sqlConsulta = "SELECT * FROM consulta";
 
+		System.out.println("\n===== CONSULTAS =====");
 		try {
 			this.banco.consulta(sqlConsulta);
-			
-			System.out.println("\n===== CONSULTAS =====");
+
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				Consulta res = new Consulta(this.banco.rs);
 				System.out.println(res);
@@ -77,10 +77,10 @@ public class ConsultaBanco {
 	public void consultarMedicos() {
 		String sqlMedico = "SELECT * FROM medico";
 
+		System.out.println("\n===== MEDICOS =====");
 		try {
 			this.banco.consulta(sqlMedico);
 
-			System.out.println("\n===== MEDICOS =====");
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				Medico res = new Medico(this.banco.rs);
 				System.out.println(res);
@@ -102,10 +102,10 @@ public class ConsultaBanco {
 	public void consultarPacientes() {
 		String sqlPaciente = "SELECT * FROM paciente";
 
+		System.out.println("\n===== PACIENTE =====");
 		try {
 			this.banco.consulta(sqlPaciente);
 
-			System.out.println("\n===== PACIENTE =====");
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				Paciente res = new Paciente(this.banco.rs);
 				System.out.println(res);
@@ -127,10 +127,10 @@ public class ConsultaBanco {
 	public void consultarPagamentos() {
 		String sqlPagamento = "SELECT * FROM pagamento";
 
+		System.out.println("\n===== PAGAMENTOS =====");
 		try {
 			this.banco.consulta(sqlPagamento);
 
-			System.out.println("\n===== PAGAMENTOS =====");
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				Pagamento res = new Pagamento(this.banco.rs);
 				System.out.println(res);
@@ -152,10 +152,10 @@ public class ConsultaBanco {
 	public void consultarPrescricao() {
 		String sqlPrescricao = "SELECT * FROM prescricao";
 
+		System.out.println("\n===== PRESCRIÇÕES =====");
 		try {
 			this.banco.consulta(sqlPrescricao);
 
-			System.out.println("\n===== PRESCRIÇÕES =====");
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				Prescricao res = new Prescricao(this.banco.rs);
 				System.out.println(res);
@@ -175,23 +175,162 @@ public class ConsultaBanco {
 	}
 
 // ----- REGISTRO -----
+	public ClinicaMedica getClinicaMedica(String cnpj) {
+		ClinicaMedica res = null;
+		String sqlClinicaMedica = ("SELECT * FROM clinica_medica where cnpj = '" + cnpj + "'");
+
+		System.out.println("\n===== CLINICA MEDICA =====");
+		try {
+			this.banco.consulta(sqlClinicaMedica);
+
+			if (this.banco.rs.next()) {
+				res = new ClinicaMedica(this.banco.rs);
+				System.out.println(res);
+			}
+		} catch (ConsultaException e) {
+			// TODO: handle exception
+//			e.printStackTrace();
+			System.out.println("\nNenhuma clinica medica encontrado com o cnpj (" + cnpj + ") informado!");
+		} catch (DadosNulosException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			this.banco.desconectar();
+		}
+		return res;
+	}
+
+	public Consulta getConsulta(Integer id) {
+		Consulta res = null;
+		String sqlConsulta = ("SELECT * FROM consulta where id_consulta = " + id);
+
+		System.out.println("\n===== CONSULTA =====");
+		try {
+			this.banco.consulta(sqlConsulta);
+
+			if (this.banco.rs.next()) {
+				res = new Consulta(this.banco.rs);
+				System.out.println(res);
+			}
+		} catch (ConsultaException e) {
+			// TODO: handle exception
+//			e.printStackTrace();
+			System.out.println("\nNenhuma consulta encontrado com o id (" + id + ") informado!");
+		} catch (DadosNulosException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			this.banco.desconectar();
+		}
+		return res;
+	}
+
 	public Medico getMedico(String crm) {
 		Medico res = null;
 		String sqlMedico = ("SELECT * FROM medico where crm = '" + crm + "'");
 
+		System.out.println("\n===== MEDICO =====");
 		try {
 			this.banco.consulta(sqlMedico);
 
-			System.out.println("\n===== MEDICO =====");
 			if (this.banco.rs.next()) {
 				res = new Medico(this.banco.rs);
 				System.out.println(res);
-			} else {
-				System.out.println("\nNenhum médico encontrado com o crm (" + crm + ") informado!");
 			}
 		} catch (ConsultaException e) {
 			// TODO: handle exception
+//			e.printStackTrace();
+			System.out.println("\nNenhum médico encontrado com o crm (" + crm + ") informado!");
+		} catch (DadosNulosException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			this.banco.desconectar();
+		}
+		return res;
+	}
+
+	public Paciente getPaciente(String cpf) {
+		Paciente res = null;
+		String sqlPaciente = ("SELECT * FROM paciente where cpf = '" + cpf + "'");
+
+		System.out.println("\n===== PACIENTE =====");
+		try {
+			this.banco.consulta(sqlPaciente);
+
+			if (this.banco.rs.next()) {
+				res = new Paciente(this.banco.rs);
+				System.out.println(res);
+			}
+		} catch (ConsultaException e) {
+			// TODO: handle exception
+//			e.printStackTrace();
+			System.out.println("\nNenhum paciente encontrado com o cpf (" + cpf + ") informado!");
+		} catch (DadosNulosException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			this.banco.desconectar();
+		}
+		return res;
+	}
+
+	public Pagamento getPagamento(Integer id) {
+		Pagamento res = null;
+		String sqlPagamento = ("SELECT * FROM pagamento where id_pagamento = " + id);
+
+		System.out.println("\n===== PAGAMENTO =====");
+		try {
+			this.banco.consulta(sqlPagamento);
+
+			if (this.banco.rs.next()) {
+				res = new Pagamento(this.banco.rs);
+				System.out.println(res);
+			}
+		} catch (ConsultaException e) {
+			// TODO: handle exception
+//			e.printStackTrace();
+			System.out.println("\nNenhum pagamento encontrado com o id (" + id + ") informado!");
+		} catch (DadosNulosException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			this.banco.desconectar();
+		}
+		return res;
+	}
+
+	public Prescricao getPrescricao(Integer id) {
+		Prescricao res = null;
+		String sqlPrescricao = ("SELECT * FROM pagamento where id_prescricao = " + id);
+
+		System.out.println("\n===== PRESCRIÇÃO =====");
+		try {
+			this.banco.consulta(sqlPrescricao);
+
+			if (this.banco.rs.next()) {
+				res = new Prescricao(this.banco.rs);
+				System.out.println(res);
+			}
+		} catch (ConsultaException e) {
+			// TODO: handle exception
+//			e.printStackTrace();
+			System.out.println("\nNenhuma prescrição encontrado com o id (" + id + "), informado!");
 		} catch (DadosNulosException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
