@@ -1,13 +1,13 @@
-package clinica_medica;
+package clinica_medica.conexao;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import conectaBD.ConectaPostgres;
+import org.postgresql.util.PSQLException;
+
+import clinica_medica.excecoes.ConsultaException;
 
 public class Banco extends ConectaPostgres{
 
-	private String driver = "org.postgresql.Driver";
 	private String user = "postgres";
 	private String senha = "171117";
 	private String url = "jdbc:postgresql://localhost:5432/projeto_bda";
@@ -24,7 +24,7 @@ public class Banco extends ConectaPostgres{
 		super.Desconectar();
 	}
 	
-	public void consulta(String sql) throws ConsultaException {
+	public void consulta(String sql) throws ConsultaException, PSQLException {
 		try {	
 			if(super.stmt == null || super.isClose()) conectar();
 			super.rs = super.stmt.executeQuery(sql);

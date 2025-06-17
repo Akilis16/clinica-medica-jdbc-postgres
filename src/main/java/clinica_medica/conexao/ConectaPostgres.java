@@ -1,7 +1,6 @@
-package conectaBD;
+package clinica_medica.conexao;
 
 import java.sql.*;
-import javax.swing.JOptionPane;
 
 public class ConectaPostgres {
 
@@ -25,7 +24,7 @@ public class ConectaPostgres {
             Class.forName("org.postgresql.Driver");
             
             /** Obtendo a conexao com o banco de dados*/
-            con = DriverManager.getConnection(endereco, usuario, strSenha);
+            con = DriverManager.getConnection(endereco, usuario, senha);
             
             /** Criando o Statement */
             stmt = con.createStatement();
@@ -57,7 +56,7 @@ public class ConectaPostgres {
         }
     }
     
-    public boolean isClose() throws SQLException {
+    protected boolean isClose() throws SQLException {
     	return con.isClosed();
     }
 }
