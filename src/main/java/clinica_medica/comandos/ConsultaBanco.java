@@ -1,4 +1,4 @@
-package clinica_medica.consulta;
+package clinica_medica.comandos;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

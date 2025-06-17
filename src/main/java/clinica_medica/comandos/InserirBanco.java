@@ -1,4 +1,4 @@
-package clinica_medica.consulta;
+package clinica_medica.comandos;
 
 import clinica_medica.conexao.Banco;
 import clinica_medica.entidades.ClinicaMedica;
@@ -8,10 +8,10 @@ import clinica_medica.entidades.Paciente;
 import clinica_medica.entidades.Pagamento;
 import clinica_medica.entidades.Prescricao;
 
-public class InsercaoBanco {
+public class InserirBanco {
 	private Banco banco;
 
-	public InsercaoBanco(Banco banco) {
+	public InserirBanco(Banco banco) {
 		this.banco = banco;
 	}
 

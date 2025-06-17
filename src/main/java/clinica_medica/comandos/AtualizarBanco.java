@@ -1,4 +1,6 @@
-package clinica_medica.consulta;
+package clinica_medica.comandos;
+
+import java.sql.SQLException;
 
 import clinica_medica.conexao.Banco;
 import clinica_medica.entidades.ClinicaMedica;
@@ -7,12 +9,30 @@ import clinica_medica.entidades.Medico;
 import clinica_medica.entidades.Paciente;
 import clinica_medica.entidades.Pagamento;
 import clinica_medica.entidades.Prescricao;
+import clinica_medica.excecoes.ConsultaException;
+import clinica_medica.excecoes.DadosNulosException;
 
 public class AtualizarBanco {
 	private Banco banco;
 
 	public AtualizarBanco(Banco banco) {
 		this.banco = banco;
+	}
+
+	public void atualizarStatusConsulta(Integer idConsulta, String novoStatus) {
+		if (idConsulta == null || novoStatus == null || novoStatus.trim().isEmpty()) {
+			System.out.println("ID da consulta ou novo status inválido.");
+			return;
+		}
+
+		String sql = "CALL atualizar_status_consulta(" + idConsulta + ", '" + novoStatus + "')";
+
+		try {
+			this.banco.manipular(sql);
+			System.out.println("Status da consulta atualizado com sucesso!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void atualizarClinicaMedica(ClinicaMedica clinica) {
