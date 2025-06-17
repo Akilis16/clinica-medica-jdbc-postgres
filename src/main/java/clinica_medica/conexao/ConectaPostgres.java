@@ -7,6 +7,7 @@ public class ConectaPostgres {
 
     private Connection con = null;
     public Statement stmt; 
+//    public PreparedStatement prst; 
     public ResultSet rs; 
     private String endereco;
     private String usuario;
@@ -41,6 +42,10 @@ public class ConectaPostgres {
             sqlex.printStackTrace();
 
         }
+    }
+    
+    public void conectarPrSt() {
+    	
     }
 
     /** Esse metodo quando invocado, realiza a desconexao com o banco */

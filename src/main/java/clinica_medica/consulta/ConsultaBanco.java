@@ -1,6 +1,8 @@
 package clinica_medica.consulta;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import clinica_medica.conexao.Banco;
 import clinica_medica.entidades.ClinicaMedica;
@@ -24,7 +26,8 @@ public class ConsultaBanco {
 	}
 
 // ----- TABELAS -----
-	public void consultarClinicasMedica() {
+	public List<ClinicaMedica> consultarClinicasMedica() {
+		List<ClinicaMedica> lista = new ArrayList<ClinicaMedica>();
 		String sqlClinicaMedica = "SELECT * FROM clinica_medica";
 
 		System.out.println("\n===== CLINICAS MEDICA =====");
@@ -33,6 +36,7 @@ public class ConsultaBanco {
 
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				ClinicaMedica res = new ClinicaMedica(this.banco.rs);
+				lista.add(res);
 				System.out.println(res);
 			}
 		} catch (ConsultaException e) {
@@ -47,9 +51,12 @@ public class ConsultaBanco {
 		} finally {
 			this.banco.desconectar();
 		}
+
+		return lista;
 	}
 
-	public void consultarConsultas() {
+	public List<Consulta> consultarConsultas() {
+		List<Consulta> lista = new ArrayList<Consulta>();
 		String sqlConsulta = "SELECT * FROM consulta";
 
 		System.out.println("\n===== CONSULTAS =====");
@@ -58,6 +65,7 @@ public class ConsultaBanco {
 
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				Consulta res = new Consulta(this.banco.rs);
+				lista.add(res);
 				System.out.println(res);
 			}
 		} catch (ConsultaException e) {
@@ -72,9 +80,11 @@ public class ConsultaBanco {
 		} finally {
 			this.banco.desconectar();
 		}
+		return lista;
 	}
 
-	public void consultarMedicos() {
+	public List<Medico> consultarMedicos() {
+		List<Medico> lista = new ArrayList<Medico>();
 		String sqlMedico = "SELECT * FROM medico";
 
 		System.out.println("\n===== MEDICOS =====");
@@ -83,6 +93,7 @@ public class ConsultaBanco {
 
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				Medico res = new Medico(this.banco.rs);
+				lista.add(res);
 				System.out.println(res);
 			}
 		} catch (ConsultaException e) {
@@ -97,9 +108,11 @@ public class ConsultaBanco {
 		} finally {
 			this.banco.desconectar();
 		}
+		return lista;
 	}
 
-	public void consultarPacientes() {
+	public List<Paciente> consultarPacientes() {
+		List<Paciente> lista = new ArrayList<Paciente>();
 		String sqlPaciente = "SELECT * FROM paciente";
 
 		System.out.println("\n===== PACIENTE =====");
@@ -108,6 +121,7 @@ public class ConsultaBanco {
 
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				Paciente res = new Paciente(this.banco.rs);
+				lista.add(res);
 				System.out.println(res);
 			}
 		} catch (ConsultaException e) {
@@ -122,9 +136,12 @@ public class ConsultaBanco {
 		} finally {
 			this.banco.desconectar();
 		}
+
+		return lista;
 	}
 
-	public void consultarPagamentos() {
+	public List<Pagamento> consultarPagamentos() {
+		List<Pagamento> lista = new ArrayList<Pagamento>();
 		String sqlPagamento = "SELECT * FROM pagamento";
 
 		System.out.println("\n===== PAGAMENTOS =====");
@@ -133,6 +150,7 @@ public class ConsultaBanco {
 
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				Pagamento res = new Pagamento(this.banco.rs);
+				lista.add(res);
 				System.out.println(res);
 			}
 		} catch (ConsultaException e) {
@@ -147,9 +165,12 @@ public class ConsultaBanco {
 		} finally {
 			this.banco.desconectar();
 		}
+
+		return lista;
 	}
 
-	public void consultarPrescricao() {
+	public List<Prescricao> consultarPrescricao() {
+		List<Prescricao> lista = new ArrayList<Prescricao>();
 		String sqlPrescricao = "SELECT * FROM prescricao";
 
 		System.out.println("\n===== PRESCRIÇÕES =====");
@@ -158,6 +179,7 @@ public class ConsultaBanco {
 
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				Prescricao res = new Prescricao(this.banco.rs);
+				lista.add(res);
 				System.out.println(res);
 			}
 		} catch (ConsultaException e) {
@@ -172,10 +194,17 @@ public class ConsultaBanco {
 		} finally {
 			this.banco.desconectar();
 		}
+
+		return lista;
 	}
 
 // ----- REGISTRO -----
 	public ClinicaMedica getClinicaMedica(String cnpj) {
+		if (cnpj == null || cnpj.trim().isEmpty()) {
+			System.out.println("CNPJ inválido para consulta");
+			return null;
+		}
+
 		ClinicaMedica res = null;
 		String sqlClinicaMedica = ("SELECT * FROM clinica_medica where cnpj = '" + cnpj + "'");
 
@@ -204,6 +233,11 @@ public class ConsultaBanco {
 	}
 
 	public Consulta getConsulta(Integer id) {
+		if (id == null) {
+			System.out.println("ID Consulta inválido para consulta");
+			return null;
+		}
+
 		Consulta res = null;
 		String sqlConsulta = ("SELECT * FROM consulta where id_consulta = " + id);
 
@@ -232,6 +266,10 @@ public class ConsultaBanco {
 	}
 
 	public Medico getMedico(String crm) {
+		if (crm == null || crm.trim().isEmpty()) {
+			System.out.println("CRM inválido para consulta");
+			return null;
+		}
 		Medico res = null;
 		String sqlMedico = ("SELECT * FROM medico where crm = '" + crm + "'");
 
@@ -260,6 +298,11 @@ public class ConsultaBanco {
 	}
 
 	public Paciente getPaciente(String cpf) {
+		if (cpf == null || cpf.trim().isEmpty()) {
+			System.out.println("CPF inválido para consulta");
+			return null;
+		}
+
 		Paciente res = null;
 		String sqlPaciente = ("SELECT * FROM paciente where cpf = '" + cpf + "'");
 
@@ -288,6 +331,11 @@ public class ConsultaBanco {
 	}
 
 	public Pagamento getPagamento(Integer id) {
+		if (id == null) {
+			System.out.println("ID Pagamento inválido para consulta");
+			return null;
+		}
+
 		Pagamento res = null;
 		String sqlPagamento = ("SELECT * FROM pagamento where id_pagamento = " + id);
 
@@ -316,8 +364,13 @@ public class ConsultaBanco {
 	}
 
 	public Prescricao getPrescricao(Integer id) {
+		if (id == null) {
+			System.out.println("ID Prescrição inválido para consulta");
+			return null;
+		}
+
 		Prescricao res = null;
-		String sqlPrescricao = ("SELECT * FROM pagamento where id_prescricao = " + id);
+		String sqlPrescricao = ("SELECT * FROM prescricao where id_prescricao = " + id);
 
 		System.out.println("\n===== PRESCRIÇÃO =====");
 		try {
@@ -366,7 +419,8 @@ public class ConsultaBanco {
 	}
 
 // ----- VIEWS -----
-	public void viewPrescricoesPaciente() {
+	public List<ViewPrescricaoPaciente> viewPrescricoesPaciente() {
+		List<ViewPrescricaoPaciente> lista = new ArrayList<ViewPrescricaoPaciente>();
 		String sqlPrescricoesPaciente = "SELECT * FROM vw_prescricoes_paciente";
 
 		try {
@@ -375,6 +429,7 @@ public class ConsultaBanco {
 			System.out.println("\n===== VIEW PRESCRIÇÕES DOS PACIENTES =====");
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				ViewPrescricaoPaciente view = new ViewPrescricaoPaciente(this.banco.rs);
+				lista.add(view);
 				System.out.println(view);
 			}
 		} catch (ConsultaException e) {
@@ -389,9 +444,12 @@ public class ConsultaBanco {
 		} finally {
 			this.banco.desconectar();
 		}
+
+		return lista;
 	}
 
-	public void viewConsultasComPagamento() {
+	public List<ViewConsultaComPagamento> viewConsultasComPagamento() {
+		List<ViewConsultaComPagamento> lista = new ArrayList<ViewConsultaComPagamento>();
 		String sqlConsultaComPagamento = "SELECT * FROM vw_consultas_com_pagamento";
 
 		try {
@@ -400,6 +458,7 @@ public class ConsultaBanco {
 			System.out.println("\n===== VIEW CONSULTAS COM PAGAMENTO =====");
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				ViewConsultaComPagamento view = new ViewConsultaComPagamento(this.banco.rs);
+				lista.add(view);
 				System.out.println(view);
 			}
 		} catch (ConsultaException e) {
@@ -414,9 +473,11 @@ public class ConsultaBanco {
 		} finally {
 			this.banco.desconectar();
 		}
+		return lista;
 	}
 
-	public void viewConsultasCompletas() {
+	public List<ViewConsultaCompleta> viewConsultasCompletas() {
+		List<ViewConsultaCompleta> lista = new ArrayList<ViewConsultaCompleta>();
 		String sqlConsultaCompleta = "SELECT * FROM vw_consultas_completas";
 
 		try {
@@ -425,6 +486,7 @@ public class ConsultaBanco {
 			System.out.println("\n===== VIEW CONSULTAS COMPLETAS =====");
 			while (this.banco.rs != null && this.banco.rs.next()) {
 				ViewConsultaCompleta view = new ViewConsultaCompleta(this.banco.rs);
+				lista.add(view);
 				System.out.println(view);
 			}
 
@@ -440,5 +502,7 @@ public class ConsultaBanco {
 		} finally {
 			this.banco.desconectar();
 		}
+
+		return lista;
 	}
 }
