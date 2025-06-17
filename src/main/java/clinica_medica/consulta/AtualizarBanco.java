@@ -12,7 +12,7 @@ public class AtualizarBanco {
 
 	public void atualizarClinicaMedica(ClinicaMedica clinica) {
 		if (clinica == null) {
-			System.out.println("Erro: Objeto clínica está nulo!");
+			System.out.println("Erro: Clinica vazia!");
 			return;
 		}
 
@@ -25,7 +25,7 @@ public class AtualizarBanco {
 				clinica.getEstadoClinica(), clinica.getCnpj());
 
 		try {
-			this.banco.comando(sqlAtualizar);
+			this.banco.manipular(sqlAtualizar);
 			System.out.println("Clínica atualizada com sucesso!");
 		} catch (Exception e) {
 			e.printStackTrace();

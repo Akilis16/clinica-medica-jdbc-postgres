@@ -36,7 +36,7 @@ public class Banco extends ConectaPostgres {
 		}
 	}
 
-	public void comando(String sql) {
+	public void manipular(String sql) {
 		try {
 			if (super.stmt == null || super.isClose())
 				conectar();
